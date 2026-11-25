@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>HP AUDIENCE · Меню</title>
-  <script src="[https://telegram.org/js/telegram-web-app.js](https://telegram.org/js/telegram-web-app.js)"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
       --bg: #FFFFFF;
@@ -160,8 +160,8 @@
   </div>
 
   <script>
-    const GAS_WEBAPP_URL = "[https://script.google.com/macros/s/AKfycbwU8aTPrn7BHwpXmXz4NeBc2uBd51c1b2IQ7a45h608R7YJW6upflb3jrDEZ2xA0ihXfA/exec](https://script.google.com/macros/s/AKfycbwU8aTPrn7BHwpXmXz4NeBc2uBd51c1b2IQ7a45h608R7YJW6upflb3jrDEZ2xA0ihXfA/exec)";
-    const EXPENSE_APP_URL = "[https://natalia93-coder.github.io/HP_AUDIENCE_expenses_app/](https://natalia93-coder.github.io/HP_AUDIENCE_expenses_app/)";
+    const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwU8aTPrn7BHwpXmXz4NeBc2uBd51c1b2IQ7a45h608R7YJW6upflb3jrDEZ2xA0ihXfA/exec";
+    const EXPENSE_APP_URL = "https://natalia93-coder.github.io/HP_AUDIENCE_expenses_app/";
 
     const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
     if (tg) {
@@ -319,7 +319,3 @@
   </script>
 </body>
 </html>
-
-
-
-Появилась ли кнопка **«💸 Внести расход»** после обновления страницы?
