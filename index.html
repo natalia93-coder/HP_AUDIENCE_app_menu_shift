@@ -10,7 +10,6 @@
       --bg: #FFFFFF;
       --tg-blue: #2481CC;
       --tg-blue-hover: #1B6FB4;
-      --dark-card: #1B1816;
       --border: #E5E0D8;
       --accent: #6E5843;
       --text: #1B1816;
@@ -83,6 +82,7 @@
       font-size: 15px;
       outline: none;
     }
+    input[type="date"]:focus, textarea:focus { border-color: var(--tg-blue); }
     .upload-box {
       border: 1.5px dashed var(--accent);
       border-radius: 10px;
@@ -119,7 +119,7 @@
 </head>
 <body>
 
-  <!-- ГЛАВНОЕ МЕНЮ (КАК В MISTY WOOD) -->
+  <!-- ГЛАВНОЕ МЕНЮ (ХАБ) -->
   <div id="screenHub" class="screen active">
     <div class="hub-buttons">
       <!-- Показывается только пользователям из EXPENSE_ALLOWED_USERS -->
@@ -165,10 +165,7 @@
   </div>
 
   <script>
-    // URL развёрнутого веб-приложения Google Apps Script (.../exec)
     const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwU8aTPrn7BHwpXmXz4NeBc2uBd51c1b2IQ7a45h608R7YJW6upflb3jrDEZ2xA0ihXfA/exec";
-
-    // Если у вас отдельный URL для формы расходов, впишите его сюда; если тот же самый — оставьте как есть
     const EXPENSE_APP_URL = "https://natalia93-coder.github.io/HP_AUDIENCE_expenses_app/";
 
     const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
@@ -183,14 +180,9 @@
     }
 
     function openExpenseApp() {
-      if (tg && typeof tg.openLink === "function" && EXPENSE_APP_URL.startsWith("http")) {
-        window.location.href = EXPENSE_APP_URL;
-      } else {
-        window.location.href = EXPENSE_APP_URL;
-      }
+      window.location.href = EXPENSE_APP_URL;
     }
 
-    // Дата по умолчанию: если ночь (до 06:00) — вчера, иначе сегодня
     (function initDefaultDate() {
       const now = new Date();
       if (now.getHours() < 6) {
@@ -202,10 +194,14 @@
       document.getElementById("shiftDate").value = `${yyyy}-${mm}-${dd}`;
     })();
 
-    // Проверка прав на кнопку «Внести расход» по Telegram ID
     (async function checkExpenseButtonAccess() {
+      const statusEl = document.getElementById("hubStatus");
       const user = tg && tg.initDataUnsafe ? tg.initDataUnsafe.user : null;
-      if (!user || !user.id || !GAS_WEBAPP_URL.startsWith("http")) return;
+
+      if (!user || !user.id) {
+        if (statusEl) statusEl.textContent = "Telegram не передал user.id в initDataUnsafe";
+        return;
+      }
 
       try {
         const url = `${GAS_WEBAPP_URL}?action=check_access&userId=${encodeURIComponent(user.id)}`;
@@ -213,9 +209,11 @@
         const json = await res.json();
         if (json && json.ok && json.canEnterExpense) {
           document.getElementById("btnExpense").style.display = "flex";
+        } else if (statusEl) {
+          statusEl.textContent = `ID ${user.id}: доступ не подтверждён`;
         }
       } catch (e) {
-        // При ошибке сети кнопку «Внести расход» не показываем
+        if (statusEl) statusEl.textContent = "Ошибка проверки доступа: " + e.message;
       }
     })();
 
@@ -315,3 +313,5 @@
   </script>
 </body>
 </html>
+```[cite: 8, 11]
+
